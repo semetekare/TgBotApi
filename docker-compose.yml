@@ -1,0 +1,33 @@
+version: "3.6"
+
+services:
+  web:
+    build:
+      context: bot
+      dockerfile: .docker/Dockerfile
+    command: /bin/sh /bot/dev.sh
+    restart: unless-stopped
+    environment:
+      - DB_HOST=localhost
+      - DB_PORT=5432  # SQLite не требует порта
+      - DB_NAME=sqlite3
+      - DB_USER=sqlite3
+      - DB_PASSWORD=sqlite3
+    volumes:
+      - media_volume_test:/bot/media
+      - static_volume_test:/bot/static
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    networks:
+      - test_bot
+
+
+networks:
+  test_bot:
+    driver: bridge
+
+volumes:
+  media_volume_test:
+  static_volume_test:
