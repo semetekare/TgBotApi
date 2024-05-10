@@ -30,11 +30,11 @@ class Topic(models.Model):
 class Word(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='words',
                               verbose_name='Категория, к которой принадлежат слова')
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение слова')
+    image = models.FileField(upload_to='files/', null=True, blank=True, verbose_name='Изображение слова')
     word = models.CharField(max_length=255, verbose_name='Слово на кириллице')
     transcription = models.CharField(max_length=255, verbose_name='Транскрипция')
-    lexical_meaning = models.JSONField(verbose_name='Лексическое значение')
-    context = models.JSONField(verbose_name='Чаще всего используемый контекст')
+    lexical_meaning = models.CharField(max_length=255, verbose_name='Лексическое значение')
+    context = models.CharField(max_length=255, verbose_name='Чаще всего используемый контекст')
     changeable = models.IntegerField(
         choices=Topic.CHANGEABLE_CHOICES,
         default=0,
@@ -50,13 +50,13 @@ class Word(models.Model):
 class Place(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='places',
                               verbose_name='Категория, к которой принадлежат места')
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение заведения')
+    image = models.FileField(upload_to='files/', null=True, blank=True, verbose_name='Изображение заведения')
     name = models.CharField(max_length=255, verbose_name='Название заведения')
     description = models.CharField(max_length=255, verbose_name='Описание заведения')
     opening_hours = models.CharField(max_length=255, verbose_name='Режим работы')
     address = models.CharField(max_length=255, verbose_name='Адрес')
-    contacts = models.JSONField(verbose_name='Контакты заведения, соцсети и т. д.')
-    keywords = models.JSONField(null=True, blank=True, verbose_name='Ключевые слова')
+    contacts = models.CharField(max_length=255, verbose_name='Контакты заведения, соцсети и т. д.')
+    keywords = models.CharField(max_length=255, null=True, blank=True, verbose_name='Ключевые слова')
     changeable = models.IntegerField(
         choices=Topic.CHANGEABLE_CHOICES,
         default=0,
@@ -72,12 +72,12 @@ class Place(models.Model):
 class Reflection(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='reflections',
                               verbose_name='Категория, к которой принадлежат размышления')
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение')
+    image = models.FileField(upload_to='files/', null=True, blank=True, verbose_name='Изображение')
     thought = models.CharField(max_length=255, verbose_name='Вопрос или утверждение')
     explanation = models.CharField(max_length=255, verbose_name='Раскрытие темы')
-    facts = models.JSONField(null=True, blank=True, verbose_name='Факты')
-    advice = models.JSONField(null=True, blank=True, verbose_name='Советы')
-    keywords = models.JSONField(null=True, blank=True, verbose_name='Ключевые слова')
+    facts = models.CharField(max_length=255, null=True, blank=True, verbose_name='Факты')
+    advice = models.CharField(max_length=255, null=True, blank=True, verbose_name='Советы')
+    keywords = models.CharField(max_length=255, null=True, blank=True, verbose_name='Ключевые слова')
     changeable = models.IntegerField(
         choices=Topic.CHANGEABLE_CHOICES,
         default=0,
@@ -93,12 +93,13 @@ class Reflection(models.Model):
 class Phrase(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='phrases',
                               verbose_name='Категория, к которой принадлежат фразы')
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name='Изображение')
+    image = models.FileField(upload_to='files/', null=True, blank=True, verbose_name='Изображение')
     name = models.CharField(max_length=255, verbose_name='Фраза')
     transcription = models.CharField(max_length=255, verbose_name='Транскрипция')
-    meaning = models.JSONField(verbose_name='Значения')
-    appropriateness = models.CharField(max_length=255, verbose_name='В каких ситуациях уместно использование этой фразы')
-    keywords = models.JSONField(null=True, blank=True, verbose_name='Ключевые слова')
+    meaning = models.CharField(max_length=255, verbose_name='Значения')
+    appropriateness = models.CharField(max_length=255,
+                                       verbose_name='В каких ситуациях уместно использование этой фразы')
+    keywords = models.CharField(max_length=255, null=True, blank=True, verbose_name='Ключевые слова')
     changeable = models.IntegerField(
         choices=Topic.CHANGEABLE_CHOICES,
         default=0,
